@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Decoder </title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+          crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $('#start').click(function (event) {
+                var text = $("#textToDecrypt").val().trim();
+                renderBoard(text);
+                $("input").change(function () {
+                    var char = $(this).attr('class');
+                    var guess = $(this).val();
+                    $("input." + char).val(guess);
+                });
+            });
+            function renderBoard(text) {
+                var words = text.split(" ");
+                var html = '';
+                for (var i = 0; i < words.length; i++) {
+                    html += renderWord(words[i]);
+                }
+                $("#board").html(html);
+            }
+
+            function renderWord(text) {
+                var html = '<div style="float:left;margin: 20px;"><table><tr>'
+                for (var i = 0; i < text.length; i++) {
+                    var char = text.charAt(i).toUpperCase();
+                    if (alphabet.indexOf(char) < 0) {
+                        html += renderStaticCol(char);
+                    } else {
+                        html += renderDynamicCol(char);
+                    }
+                }
+                html += "<tr>";
+                for (var i = 0; i < text.length; i++) {
+                    var char = text.charAt(i).toUpperCase();
+                    html += renderStaticCol(char);
+                }
+                html += "</tr></table></div>";
+                return html;
+            }
+
+            function renderStaticCol(char) {
+                return '<td width="5px;"><input style="width: 20px;" value="' + char
+                       + '" maxlength="1" disabled="disabled"></td>';
+            }
+
+            function renderDynamicCol(char) {
+                return '<td><input class="' + char + '" style="width: 20px;" maxlength="1"/></td>';
+            }
+        });
+
+    </script>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row text-center">
+        <h1> Decrypter</h1>
+    </div>
+    <label for="textToDecrypt">Text to Decrypt</label>
+    <textarea class="form-control" id="textToDecrypt" rows="3">qdoafm dqcdhik 11ce - rhm ifmafiikafm gpwr. au wdv pki cei uakrc cd giqaxeik cear, qdfcpqc raggepkce kpo udk p xkabi</textarea>
+    <div class="row text-center">
+        <button type="submit" id="start" class="btn btn-primary" style="margin-top: 20px;">Start</button>
+    </div>
+    <div class="row" id="board">
+    </div>
+</div>
+
+
+</body>
+</html>
