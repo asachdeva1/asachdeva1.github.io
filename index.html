@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Decoder </title>
+    <title>Easy Decoder </title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet"
@@ -27,13 +27,14 @@
             $('#start').click(function (event) {
                 var text = $("#textToDecrypt").val().trim();
                 renderBoard(text);
-                $("input").change(function () {
+                $("input").bind('keypress keyup blur', function() {
                     var char = $(this).attr('class');
                     var guess = $(this).val();
                     $("input." + char).val(guess);
                 });
             });
             function renderBoard(text) {
+                $("#hint").show();
                 var words = text.split(" ");
                 var html = '';
                 for (var i = 0; i < words.length; i++) {
@@ -78,12 +79,15 @@
 <div class="container">
 
     <div class="row text-center">
-        <h1> Decrypter</h1>
+        <h1> Easy Decoder</h1>
     </div>
-    <label for="textToDecrypt">Text to Decrypt</label>
+    <label for="textToDecrypt">Text to decode</label>
     <textarea class="form-control" id="textToDecrypt" rows="3">qdoafm dqcdhik 11ce - rhm ifmafiikafm gpwr. au wdv pki cei uakrc cd giqaxeik cear, qdfcpqc raggepkce kpo udk p xkabi</textarea>
     <div class="row text-center">
         <button type="submit" id="start" class="btn btn-primary" style="margin-top: 20px;">Start</button>
+    </div>
+    <div class="row text-center" id="hint" style="padding:20px; display: none;">
+        Make a guess by typing above a character
     </div>
     <div class="row" id="board">
     </div>
